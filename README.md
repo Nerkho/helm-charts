@@ -1,6 +1,6 @@
 # Nerkho's Helm Charts
 
-This repository contains Helm charts that I maintain.
+This repository contains Helm charts that are maintained by me.
 
 # Usage
 
