@@ -50,6 +50,13 @@ curl --silent --show-error --request POST --header "Content-Type: application/js
 
 Once this is done, you should be able to login on https://bsky.app/ using your PDS.
 
+### Handle validation failure
+
+There is currently an issue with handle validation via HTTP. 
+As a workaround, use DNS validation.
+
+You can [Bluesky handle debug page](https://bsky-debug.app/handle) to verify if validation succeed.
+
 ## Values
 
 | Key | Type | Default | Description |
