@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bluesky-pds.fullname" . }}
+  labels:
+    {{- include "bluesky-pds.labels" . | nindent 4 }}
+spec:
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bluesky-pds.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "bluesky-pds.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "bluesky-pds.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PDS_HOSTNAME
+              value: {{ .Values.pds.config.hostname }}
+            {{- if .Values.pds.config.secrets.existingSecret }}
+            - name: PDS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pds.config.secrets.existingSecret }}
+                  key: jwtSecret
+            - name: PDS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pds.config.secrets.existingSecret }}
+                  key: adminPassword
+            - name: PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pds.config.secrets.existingSecret }}
+                  key: plcRotationKey
+            {{- else }}
+            - name: PDS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "bluesky-pds.fullname" . }}-secret"
+                  key: jwtSecret
+            - name: PDS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "bluesky-pds.fullname" . }}-secret"
+                  key: adminPassword
+            - name: PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "bluesky-pds.fullname" . }}-secret"
+                  key: plcRotationKey
+            {{- end }}
+            - name: PDS_DATA_DIRECTORY
+              value: "{{ .Values.pds.config.dataDir }}"
+            - name: PDS_BLOBSTORE_DISK_LOCATION
+              value: "{{ .Values.pds.config.blobstoreLocation }}"
+            - name: PDS_DID_PLC_URL
+              value: "{{ .Values.pds.config.didPlcUrl }}"
+            - name: PDS_BSKY_APP_VIEW_URL
+              value: "{{ .Values.pds.config.bskyAppViewUrl }}"
+            - name: PDS_BSKY_APP_VIEW_DID
+              value: "{{ .Values.pds.config.bskyAppViewDid }}"
+            - name: PDS_REPORT_SERVICE_URL
+              value: "{{ .Values.pds.config.reportSvcUrl }}"
+            - name: PDS_REPORT_SERVICE_DID
+              value: "{{ .Values.pds.config.reportSvcDid }}"
+            - name: PDS_CRAWLERS
+              value: "{{ .Values.pds.config.crawlers }}"
+            - name: LOG_ENABLED
+              value: "{{ .Values.pds.config.logEnabled }}"
+          ports:
+            - name: pds-port
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.pds.dataStorage.mountPath }}
+          livenessProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: pds-port
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: "{{ include "bluesky-pds.fullname" . }}-data"
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
