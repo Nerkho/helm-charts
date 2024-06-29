@@ -2,13 +2,15 @@
 
 A Helm chart to deploy a [Bluesky PDS](https://github.com/bluesky-social/pds) on Kubernetes.
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4](https://img.shields.io/badge/AppVersion-0.4-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.27](https://img.shields.io/badge/AppVersion-0.4.27-informational?style=flat-square)
 
 ## Installing the Chart
 
+This chart is not yet published. You will need to clone this repository and install the chart from local source.
+
 ```bash
 helm repo add nerkho https://charts.nerkho.ch
-helm install bluesky-pds -f values.yaml nerkho/bluesky-pds
+helm install nerkho/bluesky-pds bluesky-pds -f values.yaml
 ```
 
 ## Bluesky PDS configuration and account creation
@@ -48,13 +50,6 @@ curl --silent --show-error --request POST --header "Content-Type: application/js
 
 Once this is done, you should be able to login on https://bsky.app/ using your PDS.
 
-### Handle validation failure
-
-There is currently an issue with handle validation via HTTP. 
-As a workaround, use DNS validation.
-
-You can [Bluesky handle debug page](https://bsky-debug.app/handle) to verify if validation succeed.
-
 ## Values
 
 | Key | Type | Default | Description |
@@ -63,7 +58,7 @@ You can [Bluesky handle debug page](https://bsky-debug.app/handle) to verify if 
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"ghcr.io/bluesky-social/pds"` |  |
-| image.tag | string | `"0.4"` |  |
+| image.tag | string | `"0.4.27"` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |

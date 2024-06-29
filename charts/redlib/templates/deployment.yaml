@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "redlib.fullname" . }}
+  labels:
+    {{- include "redlib.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "redlib.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "redlib.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "redlib.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: REDLIB_SFW_ONLY
+              value: "{{ .Values.redlib.instanceConfig.sfwOnly }}"
+            - name: REDLIB_BANNER
+              value: "{{ .Values.redlib.instanceConfig.banner }}"
+            - name: REDLIB_ROBOTS_DISABLE_INDEXING
+              value: "{{ .Values.redlib.instanceConfig.robotsDisableIndexing }}"
+            - name: REDLIB_PUSHSHIFT_FRONTEND
+              value: "{{ .Values.redlib.instanceConfig.pushshiftFrontend }}"
+            - name: REDLIB_PORT
+              value: "{{ .Values.redlib.instanceConfig.port }}"
+            - name: REDLIB_DEFAULT_THEME
+              value: "{{ .Values.redlib.userConfig.theme }}"
+            - name: REDLIB_DEFAULT_LAYOUT
+              value: "{{ .Values.redlib.userConfig.frontPage }}"
+            - name: REDLIB_DEFAULT_WIDE
+              value: "{{ .Values.redlib.userConfig.wide }}"
+            - name: REDLIB_DEFAULT_POST_SORT
+              value: "{{ .Values.redlib.userConfig.postSort }}"
+            - name: REDLIB_DEFAULT_COMMENT_SORT
+              value: "{{ .Values.redlib.userConfig.commentSort }}"
+            - name: REDLIB_DEFAULT_BLUR_SPOILER
+              value: "{{ .Values.redlib.userConfig.blurSpoiler }}"
+            - name: REDLIB_DEFAULT_SHOW_NSFW
+              value: "{{ .Values.redlib.userConfig.showNSFW }}"
+            - name: REDLIB_DEFAULT_BLUR_NSFW
+              value: "{{ .Values.redlib.userConfig.blurNSFW }}"
+            - name: REDLIB_DEFAULT_USE_HLS
+              value: "{{ .Values.redlib.userConfig.useHLS }}"
+            - name: REDLIB_DEFAULT_HIDE_HLS_NOTIFICATION
+              value: "{{ .Values.redlib.userConfig.hideHLSNotifications }}"
+            - name: REDLIB_DEFAULT_AUTOPLAY_VIDEOS
+              value: "{{ .Values.redlib.userConfig.autoplayVideos }}"
+            - name: REDLIB_DEFAULT_SUBSCRIPTIONS
+              value: "{{ .Values.redlib.userConfig.subscriptions }}"
+            - name: REDLIB_DEFAULT_HIDE_AWARDS
+              value: "{{ .Values.redlib.userConfig.hideAwards }}"
+            - name: REDLIB_DEFAULT_DISABLE_VISIT_REDDIT_CONFIRMATION
+              value: "{{ .Values.redlib.userConfig.disableVisitRedditConfirm }}"
+            - name: REDLIB_DEFAULT_HIDE_SCORE
+              value: "{{ .Values.redlib.userConfig.hideScore }}"
+            - name: REDLIB_DEFAULT_FIXED_NAVBAR
+              value: "{{ .Values.redlib.userConfig.fixedNavbar }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

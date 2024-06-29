@@ -9,7 +9,8 @@ A Helm chart to deploy a [Bluesky PDS](https://github.com/bluesky-social/pds) on
 This chart is not yet published. You will need to clone this repository and install the chart from local source.
 
 ```bash
-helm install bluesky-pds -f values.yaml ./bluesky-pds
+helm repo add nerkho https://charts.nerkho.ch
+helm install nerkho/bluesky-pds bluesky-pds -f values.yaml
 ```
 
 ## Bluesky PDS configuration and account creation
