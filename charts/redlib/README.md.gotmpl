@@ -13,3 +13,9 @@ helm repo add nerkho https://charts.nerkho.ch
 helm repo update
 helm install nerkho/redlib redlib -f values.yaml 
 ```
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}
