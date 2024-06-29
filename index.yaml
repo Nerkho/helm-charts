@@ -11,4 +11,15 @@ entries:
     urls:
     - https://github.com/Nerkho/helm-charts/releases/download/bluesky-pds-0.1.0/bluesky-pds-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-30T14:02:55.329927195Z"
+  redlib:
+  - apiVersion: v2
+    appVersion: 0.35.1
+    created: "2024-06-29T22:08:21.25505638Z"
+    description: A Helm chart for Redlib
+    digest: ba18c8b44b35b3f66f028d1d4cb82d1eef4ba823e46032609e4cff0e3c14cfba
+    name: redlib
+    type: application
+    urls:
+    - https://github.com/Nerkho/helm-charts/releases/download/redlib-0.1.0/redlib-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-06-29T22:08:21.255062241Z"
