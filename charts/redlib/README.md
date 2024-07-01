@@ -6,8 +6,6 @@ A Helm chart to deploy [Redlib](https://github.com/redlib-org/redlib) on Kuberne
 
 ## Installing the Chart
 
-This chart is not yet published. You will need to clone this repository and install the chart from local source.
-
 ```bash
 helm repo add nerkho https://charts.nerkho.ch
 helm repo update
