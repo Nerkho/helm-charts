@@ -14,13 +14,15 @@ pds:
   config:
     hostname: "pds.example.com"
     secrets:
-      # openssl rand --hex 16
+      ## openssl rand --hex 16
       jwtSecret: ""
-      # openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32
+      ## openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32
       adminPassword: ""
-      # openssl rand --hex 16
+      ## openssl rand --hex 16
       plcRotationKey: ""
-      ## Set the value for existingSecret to use a pre-created secret for jwtSecret, adminPassword and plcRotationKey
+      ## example: smtps://user:password@smtp.example.com:465/
+      emailSmtpUrl: ""
+      ## Set the value for existingSecret to use a pre-created secret
       #existingSecret : ""
     dataDir: "/pds"
     blobstoreLocation: "/pds/blocks"
@@ -30,7 +32,6 @@ pds:
     reportSvcUrl: "https://mod.bsky.app"
     reportSvcDid: "did:plc:ar7c4by46qjdydhdevvrndac"
     crawlers: "https://bsky.network"
-    pdsEmailSmtpUrl: ""
     pdsEmailFromAddress: ""
   dataStorage:
     size: 10Gi
