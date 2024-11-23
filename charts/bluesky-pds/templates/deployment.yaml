@@ -36,39 +36,21 @@ spec:
           env:
             - name: PDS_HOSTNAME
               value: {{ .Values.pds.config.hostname }}
-            {{- if .Values.pds.config.secrets.existingSecret }}
             - name: PDS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.pds.config.secrets.existingSecret }}
+                  name: {{ include "bluesky-pds.secretName" . }}
                   key: jwtSecret
             - name: PDS_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.pds.config.secrets.existingSecret }}
+                  name: {{ include "bluesky-pds.secretName" . }}
                   key: adminPassword
             - name: PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.pds.config.secrets.existingSecret }}
+                  name: {{ include "bluesky-pds.secretName" . }}
                   key: plcRotationKey
-            {{- else }}
-            - name: PDS_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ include "bluesky-pds.fullname" . }}-secret"
-                  key: jwtSecret
-            - name: PDS_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ include "bluesky-pds.fullname" . }}-secret"
-                  key: adminPassword
-            - name: PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ include "bluesky-pds.fullname" . }}-secret"
-                  key: plcRotationKey
-            {{- end }}
             - name: PDS_DATA_DIRECTORY
               value: "{{ .Values.pds.config.dataDir }}"
             - name: PDS_BLOBSTORE_DISK_LOCATION

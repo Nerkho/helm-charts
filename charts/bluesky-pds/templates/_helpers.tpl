@@ -60,3 +60,14 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Determine the name of the secret
+*/}}
+{{- define "bluesky-pds.secretName" -}}
+{{- if .Values.pds.config.secrets.existingSecret }}
+{{- .Values.pds.config.secrets.existingSecret }}
+{{- else }}
+{{- include "bluesky-pds.fullname" . -}}-secret
+{{- end }}
+{{- end }}
