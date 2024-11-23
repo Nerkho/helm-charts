@@ -1,3 +1,4 @@
+---
 # Default values for bluesky-pds.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -12,17 +13,18 @@ image:
 
 pds:
   config:
+    # -- The public hostname of your PDS
     hostname: "pds.example.com"
     secrets:
-      ## openssl rand --hex 16
+      # -- Output of `openssl rand --hex 16`
       jwtSecret: ""
-      ## openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32
+      # -- Output of `openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32`
       adminPassword: ""
-      ## openssl rand --hex 16
+      # -- Output of `openssl rand --hex 16`
       plcRotationKey: ""
-      ## example: smtps://user:password@smtp.example.com:465/
+      # -- Example: `smtps://user:password@smtp.example.com:465/`
       emailSmtpUrl: ""
-      ## Set the value for existingSecret to use a pre-created secret
+      # -- Set the value for existingSecret to use a pre-created secret
       #existingSecret : ""
     dataDir: "/pds"
     blobstoreLocation: "/pds/blocks"
@@ -32,10 +34,15 @@ pds:
     reportSvcUrl: "https://mod.bsky.app"
     reportSvcDid: "did:plc:ar7c4by46qjdydhdevvrndac"
     crawlers: "https://bsky.network"
+    # -- From address for emails sent
     pdsEmailFromAddress: ""
+  # -- Persistent storage settings
   dataStorage:
+    # -- How large of a PVC to make
     size: 10Gi
+    # -- Where to mount the PVC. Make sure it matches pds.config.dataDir!
     mountPath: "/pds"
+    # -- Storage class to use. Defaults to the cluster default.
     storageClass: null
 
 imagePullSecrets: []
@@ -43,11 +50,11 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 

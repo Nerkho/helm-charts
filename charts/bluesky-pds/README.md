@@ -74,17 +74,18 @@ Once this is done, you should be able to login on https://bsky.app/ using your P
 | pds.config.crawlers | string | `"https://bsky.network"` |  |
 | pds.config.dataDir | string | `"/pds"` |  |
 | pds.config.didPlcUrl | string | `"https://plc.directory"` |  |
-| pds.config.hostname | string | `"pds.example.com"` |  |
-| pds.config.pdsEmailFromAddress | string | `""` |  |
+| pds.config.hostname | string | `"pds.example.com"` | The public hostname of your PDS |
+| pds.config.pdsEmailFromAddress | string | `""` | From address for emails sent |
 | pds.config.reportSvcDid | string | `"did:plc:ar7c4by46qjdydhdevvrndac"` |  |
 | pds.config.reportSvcUrl | string | `"https://mod.bsky.app"` |  |
 | pds.config.secrets.adminPassword | string | `""` |  |
-| pds.config.secrets.emailSmtpUrl | string | `""` |  |
+| pds.config.secrets.emailSmtpUrl | string | `""` | Example: `smtps://user:password@smtp.example.com:465/` |
 | pds.config.secrets.jwtSecret | string | `""` |  |
 | pds.config.secrets.plcRotationKey | string | `""` |  |
-| pds.dataStorage.mountPath | string | `"/pds"` |  |
-| pds.dataStorage.size | string | `"10Gi"` |  |
-| pds.dataStorage.storageClass | string | `nil` |  |
+| pds.dataStorage | object | `{"mountPath":"/pds","size":"10Gi","storageClass":null}` | Persistent storage settings |
+| pds.dataStorage.mountPath | string | `"/pds"` | Where to mount the PVC. Make sure it matches pds.config.dataDir! |
+| pds.dataStorage.size | string | `"10Gi"` | How large of a PVC to make |
+| pds.dataStorage.storageClass | string | `nil` | Storage class to use. Defaults to the cluster default. |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
@@ -92,9 +93,9 @@ Once this is done, you should be able to login on https://bsky.app/ using your P
 | securityContext | object | `{}` |  |
 | service.port | int | `3000` |  |
 | service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `true` |  |
-| serviceAccount.name | string | `""` |  |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` |  |
 
 ----------------------------------------------
