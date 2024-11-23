@@ -44,7 +44,7 @@ curl --silent --show-error --request POST --header "Content-Type: application/js
 * Create the account
 
 ```bash
-curl --silent --show-error --request POST --header "Content-Type: application/json" -d @data.json "https://${PDS_HOSTNAME}/xrpc/com.atproto.server.createAccount" 
+curl --silent --show-error --request POST --header "Content-Type: application/json" -d @data.json "https://${PDS_HOSTNAME}/xrpc/com.atproto.server.createAccount"
 ```
 
 Once this is done, you should be able to login on https://bsky.app/ using your PDS.
