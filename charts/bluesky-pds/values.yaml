@@ -114,3 +114,20 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Tunable liveness probe, might be necessary on slower machines that kill slow containers.
+livenessProbe:
+  #failureThreshold: 3
+  #successThreshold: 1
+  #timeoutSeconds: 1
+  #periodSeconds: 10
+  httpGet:
+    path: /xrpc/_health
+    port: pds-port
+    #scheme: HTTP
+
+# TODO: Implement Readiness Probe
+# readinessProbe:
+#   httpGet:
+#     path: /
+#     port: http
