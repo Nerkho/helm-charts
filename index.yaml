@@ -3,6 +3,16 @@ entries:
   bluesky-pds:
   - apiVersion: v2
     appVersion: 0.4.107
+    created: "2025-05-10T09:03:21.068161804Z"
+    description: A Helm chart to deploy a Bluesky PDS
+    digest: 4c68c01d232ac5348f0668880207034940e5aa4c0a4581902473ef79a49ddf66
+    name: bluesky-pds
+    type: application
+    urls:
+    - https://github.com/Nerkho/helm-charts/releases/download/bluesky-pds-0.4.0/bluesky-pds-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 0.4.107
     created: "2025-03-25T20:00:28.355091511Z"
     description: A Helm chart to deploy a Bluesky PDS
     digest: 8d28511cb90f47cb9e7ef25eb56ca8d1291e434c66688d671e2edb2ec6ca6711
@@ -103,4 +113,4 @@ entries:
     urls:
     - https://github.com/Nerkho/helm-charts/releases/download/redlib-0.1.1/redlib-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-25T20:00:28.355148998Z"
+generated: "2025-05-10T09:03:21.068207349Z"
