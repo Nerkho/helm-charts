@@ -86,6 +86,16 @@ ingress:
   #    hosts:
   #      - redlib.exemple.com
 
+#Based on the health check for Docker Compose, see:
+# https://github.com/redlib-org/redlib/blob/main/compose.yaml
+livenessProbe:
+  httpGet:
+    path: /settings
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 60
+  timeoutSeconds: 5
+
 resources:
   {}
   # We usually recommend not to specify default resources and to leave this as a conscious
